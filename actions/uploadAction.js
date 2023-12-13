@@ -46,10 +46,6 @@ async function uploadPhotosToCloudinary(newFiles) {
     return await Promise.all(multiplePhotosPromise)
 }
 
-const delay = (delayInms) => {
-    return new Promise(resolve => (setTimeout(resolve, delayInms)))
-}
-
 export async function uploadPhoto(formData) {
     try {
         const newFiles = await savePhotosToLocal(formData);
@@ -58,7 +54,6 @@ export async function uploadPhoto(formData) {
 
         newFiles.map(file => fs.unlink(file.filepath))
 
-        // await delay(2000)
 
 
         const newPhotos = photos.map(photo => {
@@ -77,9 +72,9 @@ export async function uploadPhoto(formData) {
 
 export async function getAllPhotos() {
     try {
-        const { fas } = await cloudinary.v2.search.expression(
-            'folder:nextjs_upload/*'
-        ).sort_by('created_at', 'desc').max_results(500).execute()
+        // const { resources } = await cloudinary.v2.search.expression(
+        //     'folder:nextjs_upload/*'
+        // ).sort_by('created_at', 'desc').max_results(500).execute()
 
         const photos = await Photo.find().sort('-createdAt')
         const resources = photos.map(photo => ({ ...photo._doc, _id: photo._id.toString() }))
