@@ -77,9 +77,9 @@ export async function uploadPhoto(formData) {
 
 export async function getAllPhotos() {
     try {
-        // const { resources } = await cloudinary.v2.search.expression(
-        //     'folder:nextjs_upload/*'
-        // ).sort_by('created_at', 'desc').max_results(500).execute()
+        const { fas } = await cloudinary.v2.search.expression(
+            'folder:nextjs_upload/*'
+        ).sort_by('created_at', 'desc').max_results(500).execute()
 
         const photos = await Photo.find().sort('-createdAt')
         const resources = photos.map(photo => ({ ...photo._doc, _id: photo._id.toString() }))
